@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
+from forms import HealthDataForm
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'super_secret_key'
 
 @app.route('/')
 def index():
@@ -8,10 +10,11 @@ def index():
 
 @app.route('/form', methods=['GET', 'POST'])
 def form():
+    form = HealthDataForm()
     if request.method == 'POST':
         # Process form data here
         return redirect(url_for('dashboard'))
-    return render_template('form.html')
+    return render_template('form.html', form=form)
 
 @app.route('/dashboard')
 def dashboard():
